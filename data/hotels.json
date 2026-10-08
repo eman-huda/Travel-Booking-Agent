@@ -1,0 +1,350 @@
+{
+  "note": "Fictional hotels with mock prices in USD per room per night.",
+  "hotels": {
+    "Dubai": [
+      {
+        "hotel_id": "DXB-H01",
+        "name": "Creekview Comfort Hotel",
+        "city": "Dubai",
+        "location": "Deira",
+        "rating": 4.2,
+        "nightly_price": 118,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Breakfast included",
+          "Airport shuttle"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H02",
+        "name": "Al Barsha Garden Suites",
+        "city": "Dubai",
+        "location": "Al Barsha",
+        "rating": 4.4,
+        "nightly_price": 142,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Pool",
+          "Breakfast included",
+          "Gym"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H03",
+        "name": "Marina Pearl Residence",
+        "city": "Dubai",
+        "location": "Dubai Marina",
+        "rating": 4.6,
+        "nightly_price": 235,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "Sea view",
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H04",
+        "name": "Bur Dubai Budget Inn",
+        "city": "Dubai",
+        "location": "Bur Dubai",
+        "rating": 3.4,
+        "nightly_price": 62,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H05",
+        "name": "Downtown Skyline Hotel",
+        "city": "Dubai",
+        "location": "Downtown Dubai",
+        "rating": 4.8,
+        "nightly_price": 340,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Spa",
+          "Pool",
+          "Fine dining",
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H06",
+        "name": "Jumeirah Sands Hotel",
+        "city": "Dubai",
+        "location": "Jumeirah",
+        "rating": 4.3,
+        "nightly_price": 175,
+        "currency": "USD",
+        "availability": false,
+        "amenities": [
+          "Beach access",
+          "Pool",
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DXB-H07",
+        "name": "Karama City Hotel",
+        "city": "Dubai",
+        "location": "Al Karama",
+        "rating": 3.9,
+        "nightly_price": 85,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Breakfast included"
+        ],
+        "room_type": "Double room"
+      }
+    ],
+    "Istanbul": [
+      {
+        "hotel_id": "IST-H01",
+        "name": "Sultanahmet Courtyard Hotel",
+        "city": "Istanbul",
+        "location": "Sultanahmet",
+        "rating": 4.3,
+        "nightly_price": 110,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Breakfast included"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "IST-H02",
+        "name": "Galata Loft Suites",
+        "city": "Istanbul",
+        "location": "Beyoglu",
+        "rating": 4.5,
+        "nightly_price": 150,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Kitchenette"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "IST-H03",
+        "name": "Bosphorus View Hotel",
+        "city": "Istanbul",
+        "location": "Besiktas",
+        "rating": 4.7,
+        "nightly_price": 260,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Sea view",
+          "Spa",
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "IST-H04",
+        "name": "Old City Guesthouse",
+        "city": "Istanbul",
+        "location": "Fatih",
+        "rating": 3.6,
+        "nightly_price": 55,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "IST-H05",
+        "name": "Taksim Central Hotel",
+        "city": "Istanbul",
+        "location": "Taksim",
+        "rating": 4.0,
+        "nightly_price": 95,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Gym"
+        ],
+        "room_type": "Double room"
+      }
+    ],
+    "Doha": [
+      {
+        "hotel_id": "DOH-H01",
+        "name": "Corniche Bay Hotel",
+        "city": "Doha",
+        "location": "Corniche",
+        "rating": 4.3,
+        "nightly_price": 135,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Free Wi-Fi",
+          "Breakfast included"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DOH-H02",
+        "name": "Souq Heritage Inn",
+        "city": "Doha",
+        "location": "Souq Waqif",
+        "rating": 4.1,
+        "nightly_price": 105,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DOH-H03",
+        "name": "West Bay Tower Hotel",
+        "city": "Doha",
+        "location": "West Bay",
+        "rating": 4.7,
+        "nightly_price": 250,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Spa",
+          "Pool",
+          "Gym"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DOH-H04",
+        "name": "Al Sadd Value Hotel",
+        "city": "Doha",
+        "location": "Al Sadd",
+        "rating": 3.5,
+        "nightly_price": 70,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "DOH-H05",
+        "name": "Pearl Marina Suites",
+        "city": "Doha",
+        "location": "The Pearl",
+        "rating": 4.5,
+        "nightly_price": 190,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Marina view"
+        ],
+        "room_type": "Double room"
+      }
+    ],
+    "Kuala Lumpur": [
+      {
+        "hotel_id": "KUL-H01",
+        "name": "Bukit Bintang Comfort Hotel",
+        "city": "Kuala Lumpur",
+        "location": "Bukit Bintang",
+        "rating": 4.2,
+        "nightly_price": 75,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "KUL-H02",
+        "name": "KLCC Park Residence",
+        "city": "Kuala Lumpur",
+        "location": "KLCC",
+        "rating": 4.6,
+        "nightly_price": 160,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "City view"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "KUL-H03",
+        "name": "Chinatown Heritage Hotel",
+        "city": "Kuala Lumpur",
+        "location": "Chinatown",
+        "rating": 3.8,
+        "nightly_price": 48,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "KUL-H04",
+        "name": "Bangsar Garden Suites",
+        "city": "Kuala Lumpur",
+        "location": "Bangsar",
+        "rating": 4.4,
+        "nightly_price": 98,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Pool",
+          "Kitchenette"
+        ],
+        "room_type": "Double room"
+      },
+      {
+        "hotel_id": "KUL-H05",
+        "name": "Sentral Transit Hotel",
+        "city": "Kuala Lumpur",
+        "location": "KL Sentral",
+        "rating": 4.0,
+        "nightly_price": 68,
+        "currency": "USD",
+        "availability": true,
+        "amenities": [
+          "Free Wi-Fi",
+          "Rail link"
+        ],
+        "room_type": "Double room"
+      }
+    ]
+  }
+}

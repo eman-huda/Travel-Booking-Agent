@@ -1,0 +1,749 @@
+{
+  "note": "Mock schedules and fares. Prices are USD per passenger, round trip.",
+  "currency": "USD",
+  "routes": [
+    {
+      "origin": "Islamabad",
+      "destination": "Dubai",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 613",
+          "departure_time": "04:25",
+          "duration_minutes": 200,
+          "stops": 0,
+          "base_price": 560,
+          "return_flight_number": "EK 612",
+          "return_departure_time": "21:50",
+          "return_duration_minutes": 180
+        },
+        {
+          "airline": "flydubai",
+          "flight_number": "FZ 354",
+          "departure_time": "09:15",
+          "duration_minutes": 195,
+          "stops": 0,
+          "base_price": 430,
+          "return_flight_number": "FZ 353",
+          "return_departure_time": "18:40",
+          "return_duration_minutes": 185
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 233",
+          "departure_time": "13:05",
+          "duration_minutes": 205,
+          "stops": 0,
+          "base_price": 395,
+          "return_flight_number": "PK 234",
+          "return_departure_time": "19:30",
+          "return_duration_minutes": 190
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 210",
+          "departure_time": "06:10",
+          "duration_minutes": 200,
+          "stops": 0,
+          "base_price": 360,
+          "return_flight_number": "PA 211",
+          "return_departure_time": "16:20",
+          "return_duration_minutes": 190
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 615",
+          "departure_time": "03:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 510,
+          "return_flight_number": "QR 1066",
+          "return_departure_time": "20:10",
+          "return_duration_minutes": 345
+        },
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 615",
+          "departure_time": "10:45",
+          "duration_minutes": 200,
+          "stops": 0,
+          "base_price": 640,
+          "return_flight_number": "EK 614",
+          "return_departure_time": "14:20",
+          "return_duration_minutes": 180
+        }
+      ]
+    },
+    {
+      "origin": "Islamabad",
+      "destination": "Istanbul",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 601",
+          "departure_time": "03:55",
+          "duration_minutes": 357,
+          "stops": 0,
+          "base_price": 624,
+          "return_flight_number": "EK 602",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 340
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 203",
+          "departure_time": "12:30",
+          "duration_minutes": 374,
+          "stops": 0,
+          "base_price": 494,
+          "return_flight_number": "PK 204",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 357
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 700",
+          "departure_time": "08:20",
+          "duration_minutes": 510,
+          "stops": 1,
+          "base_price": 572,
+          "return_flight_number": "TK 701",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 493
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 605",
+          "departure_time": "09:40",
+          "duration_minutes": 561,
+          "stops": 1,
+          "base_price": 598,
+          "return_flight_number": "QR 606",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 544
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 400",
+          "departure_time": "11:15",
+          "duration_minutes": 391,
+          "stops": 0,
+          "base_price": 468,
+          "return_flight_number": "PA 401",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 374
+        }
+      ]
+    },
+    {
+      "origin": "Islamabad",
+      "destination": "Doha",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 611",
+          "departure_time": "03:55",
+          "duration_minutes": 210,
+          "stops": 0,
+          "base_price": 456,
+          "return_flight_number": "EK 612",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 200
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 213",
+          "departure_time": "12:30",
+          "duration_minutes": 220,
+          "stops": 0,
+          "base_price": 361,
+          "return_flight_number": "PK 214",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 210
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 710",
+          "departure_time": "08:20",
+          "duration_minutes": 300,
+          "stops": 1,
+          "base_price": 418,
+          "return_flight_number": "TK 711",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 290
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 615",
+          "departure_time": "09:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 437,
+          "return_flight_number": "QR 616",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 320
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 410",
+          "departure_time": "11:15",
+          "duration_minutes": 230,
+          "stops": 0,
+          "base_price": 342,
+          "return_flight_number": "PA 411",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 220
+        }
+      ]
+    },
+    {
+      "origin": "Islamabad",
+      "destination": "Kuala Lumpur",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 621",
+          "departure_time": "03:55",
+          "duration_minutes": 399,
+          "stops": 0,
+          "base_price": 564,
+          "return_flight_number": "EK 622",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 380
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 223",
+          "departure_time": "12:30",
+          "duration_minutes": 418,
+          "stops": 0,
+          "base_price": 446,
+          "return_flight_number": "PK 224",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 399
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 720",
+          "departure_time": "08:20",
+          "duration_minutes": 570,
+          "stops": 1,
+          "base_price": 517,
+          "return_flight_number": "TK 721",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 551
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 625",
+          "departure_time": "09:40",
+          "duration_minutes": 627,
+          "stops": 1,
+          "base_price": 540,
+          "return_flight_number": "QR 626",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 608
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 420",
+          "departure_time": "11:15",
+          "duration_minutes": 437,
+          "stops": 0,
+          "base_price": 423,
+          "return_flight_number": "PA 421",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 418
+        }
+      ]
+    },
+    {
+      "origin": "Lahore",
+      "destination": "Dubai",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 631",
+          "departure_time": "03:55",
+          "duration_minutes": 210,
+          "stops": 0,
+          "base_price": 456,
+          "return_flight_number": "EK 632",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 200
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 233",
+          "departure_time": "12:30",
+          "duration_minutes": 220,
+          "stops": 0,
+          "base_price": 361,
+          "return_flight_number": "PK 234",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 210
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 730",
+          "departure_time": "08:20",
+          "duration_minutes": 300,
+          "stops": 1,
+          "base_price": 418,
+          "return_flight_number": "TK 731",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 290
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 635",
+          "departure_time": "09:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 437,
+          "return_flight_number": "QR 636",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 320
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 430",
+          "departure_time": "11:15",
+          "duration_minutes": 230,
+          "stops": 0,
+          "base_price": 342,
+          "return_flight_number": "PA 431",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 220
+        }
+      ]
+    },
+    {
+      "origin": "Lahore",
+      "destination": "Istanbul",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 641",
+          "departure_time": "03:55",
+          "duration_minutes": 357,
+          "stops": 0,
+          "base_price": 648,
+          "return_flight_number": "EK 642",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 340
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 243",
+          "departure_time": "12:30",
+          "duration_minutes": 374,
+          "stops": 0,
+          "base_price": 513,
+          "return_flight_number": "PK 244",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 357
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 740",
+          "departure_time": "08:20",
+          "duration_minutes": 510,
+          "stops": 1,
+          "base_price": 594,
+          "return_flight_number": "TK 741",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 493
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 645",
+          "departure_time": "09:40",
+          "duration_minutes": 561,
+          "stops": 1,
+          "base_price": 621,
+          "return_flight_number": "QR 646",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 544
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 440",
+          "departure_time": "11:15",
+          "duration_minutes": 391,
+          "stops": 0,
+          "base_price": 486,
+          "return_flight_number": "PA 441",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 374
+        }
+      ]
+    },
+    {
+      "origin": "Lahore",
+      "destination": "Doha",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 651",
+          "departure_time": "03:55",
+          "duration_minutes": 210,
+          "stops": 0,
+          "base_price": 444,
+          "return_flight_number": "EK 652",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 200
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 253",
+          "departure_time": "12:30",
+          "duration_minutes": 220,
+          "stops": 0,
+          "base_price": 352,
+          "return_flight_number": "PK 254",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 210
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 750",
+          "departure_time": "08:20",
+          "duration_minutes": 300,
+          "stops": 1,
+          "base_price": 407,
+          "return_flight_number": "TK 751",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 290
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 655",
+          "departure_time": "09:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 425,
+          "return_flight_number": "QR 656",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 320
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 450",
+          "departure_time": "11:15",
+          "duration_minutes": 230,
+          "stops": 0,
+          "base_price": 333,
+          "return_flight_number": "PA 451",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 220
+        }
+      ]
+    },
+    {
+      "origin": "Lahore",
+      "destination": "Kuala Lumpur",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 661",
+          "departure_time": "03:55",
+          "duration_minutes": 399,
+          "stops": 0,
+          "base_price": 552,
+          "return_flight_number": "EK 662",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 380
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 263",
+          "departure_time": "12:30",
+          "duration_minutes": 418,
+          "stops": 0,
+          "base_price": 437,
+          "return_flight_number": "PK 264",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 399
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 760",
+          "departure_time": "08:20",
+          "duration_minutes": 570,
+          "stops": 1,
+          "base_price": 506,
+          "return_flight_number": "TK 761",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 551
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 665",
+          "departure_time": "09:40",
+          "duration_minutes": 627,
+          "stops": 1,
+          "base_price": 529,
+          "return_flight_number": "QR 666",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 608
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 460",
+          "departure_time": "11:15",
+          "duration_minutes": 437,
+          "stops": 0,
+          "base_price": 414,
+          "return_flight_number": "PA 461",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 418
+        }
+      ]
+    },
+    {
+      "origin": "Karachi",
+      "destination": "Dubai",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 671",
+          "departure_time": "03:55",
+          "duration_minutes": 210,
+          "stops": 0,
+          "base_price": 360,
+          "return_flight_number": "EK 672",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 200
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 273",
+          "departure_time": "12:30",
+          "duration_minutes": 220,
+          "stops": 0,
+          "base_price": 285,
+          "return_flight_number": "PK 274",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 210
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 770",
+          "departure_time": "08:20",
+          "duration_minutes": 300,
+          "stops": 1,
+          "base_price": 330,
+          "return_flight_number": "TK 771",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 290
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 675",
+          "departure_time": "09:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 345,
+          "return_flight_number": "QR 676",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 320
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 470",
+          "departure_time": "11:15",
+          "duration_minutes": 230,
+          "stops": 0,
+          "base_price": 270,
+          "return_flight_number": "PA 471",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 220
+        }
+      ]
+    },
+    {
+      "origin": "Karachi",
+      "destination": "Istanbul",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 681",
+          "departure_time": "03:55",
+          "duration_minutes": 357,
+          "stops": 0,
+          "base_price": 672,
+          "return_flight_number": "EK 682",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 340
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 283",
+          "departure_time": "12:30",
+          "duration_minutes": 374,
+          "stops": 0,
+          "base_price": 532,
+          "return_flight_number": "PK 284",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 357
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 780",
+          "departure_time": "08:20",
+          "duration_minutes": 510,
+          "stops": 1,
+          "base_price": 616,
+          "return_flight_number": "TK 781",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 493
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 685",
+          "departure_time": "09:40",
+          "duration_minutes": 561,
+          "stops": 1,
+          "base_price": 644,
+          "return_flight_number": "QR 686",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 544
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 480",
+          "departure_time": "11:15",
+          "duration_minutes": 391,
+          "stops": 0,
+          "base_price": 504,
+          "return_flight_number": "PA 481",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 374
+        }
+      ]
+    },
+    {
+      "origin": "Karachi",
+      "destination": "Doha",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 691",
+          "departure_time": "03:55",
+          "duration_minutes": 210,
+          "stops": 0,
+          "base_price": 396,
+          "return_flight_number": "EK 692",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 200
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 293",
+          "departure_time": "12:30",
+          "duration_minutes": 220,
+          "stops": 0,
+          "base_price": 314,
+          "return_flight_number": "PK 294",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 210
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 790",
+          "departure_time": "08:20",
+          "duration_minutes": 300,
+          "stops": 1,
+          "base_price": 363,
+          "return_flight_number": "TK 791",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 290
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 695",
+          "departure_time": "09:40",
+          "duration_minutes": 330,
+          "stops": 1,
+          "base_price": 379,
+          "return_flight_number": "QR 696",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 320
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 490",
+          "departure_time": "11:15",
+          "duration_minutes": 230,
+          "stops": 0,
+          "base_price": 297,
+          "return_flight_number": "PA 491",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 220
+        }
+      ]
+    },
+    {
+      "origin": "Karachi",
+      "destination": "Kuala Lumpur",
+      "options": [
+        {
+          "airline": "Emirates",
+          "flight_number": "EK 601",
+          "departure_time": "03:55",
+          "duration_minutes": 399,
+          "stops": 0,
+          "base_price": 528,
+          "return_flight_number": "EK 602",
+          "return_departure_time": "21:30",
+          "return_duration_minutes": 380
+        },
+        {
+          "airline": "PIA",
+          "flight_number": "PK 203",
+          "departure_time": "12:30",
+          "duration_minutes": 418,
+          "stops": 0,
+          "base_price": 418,
+          "return_flight_number": "PK 204",
+          "return_departure_time": "18:45",
+          "return_duration_minutes": 399
+        },
+        {
+          "airline": "Turkish Airlines",
+          "flight_number": "TK 700",
+          "departure_time": "08:20",
+          "duration_minutes": 570,
+          "stops": 1,
+          "base_price": 484,
+          "return_flight_number": "TK 701",
+          "return_departure_time": "15:10",
+          "return_duration_minutes": 551
+        },
+        {
+          "airline": "Qatar Airways",
+          "flight_number": "QR 605",
+          "departure_time": "09:40",
+          "duration_minutes": 627,
+          "stops": 1,
+          "base_price": 506,
+          "return_flight_number": "QR 606",
+          "return_departure_time": "19:55",
+          "return_duration_minutes": 608
+        },
+        {
+          "airline": "Airblue",
+          "flight_number": "PA 400",
+          "departure_time": "11:15",
+          "duration_minutes": 437,
+          "stops": 0,
+          "base_price": 396,
+          "return_flight_number": "PA 401",
+          "return_departure_time": "17:05",
+          "return_duration_minutes": 418
+        }
+      ]
+    }
+  ]
+}

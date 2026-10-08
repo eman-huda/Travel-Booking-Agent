@@ -1,0 +1,206 @@
+{
+  "note": "Mock monthly average daytime highs in Celsius.",
+  "basis": "climate_average",
+  "cities": {
+    "Dubai": {
+      "1": {
+        "temperature": 24,
+        "condition": "Warm and sunny"
+      },
+      "2": {
+        "temperature": 25,
+        "condition": "Warm and sunny"
+      },
+      "3": {
+        "temperature": 29,
+        "condition": "Warm and sunny"
+      },
+      "4": {
+        "temperature": 33,
+        "condition": "Hot and sunny"
+      },
+      "5": {
+        "temperature": 38,
+        "condition": "Extremely hot and sunny"
+      },
+      "6": {
+        "temperature": 40,
+        "condition": "Extremely hot and sunny"
+      },
+      "7": {
+        "temperature": 41,
+        "condition": "Extremely hot and sunny"
+      },
+      "8": {
+        "temperature": 41,
+        "condition": "Extremely hot and sunny"
+      },
+      "9": {
+        "temperature": 39,
+        "condition": "Extremely hot and sunny"
+      },
+      "10": {
+        "temperature": 35,
+        "condition": "Hot and sunny"
+      },
+      "11": {
+        "temperature": 30,
+        "condition": "Warm and sunny"
+      },
+      "12": {
+        "temperature": 26,
+        "condition": "Warm and sunny"
+      }
+    },
+    "Doha": {
+      "1": {
+        "temperature": 23,
+        "condition": "Warm and sunny"
+      },
+      "2": {
+        "temperature": 24,
+        "condition": "Warm and sunny"
+      },
+      "3": {
+        "temperature": 28,
+        "condition": "Warm and sunny"
+      },
+      "4": {
+        "temperature": 33,
+        "condition": "Hot and sunny"
+      },
+      "5": {
+        "temperature": 39,
+        "condition": "Extremely hot and sunny"
+      },
+      "6": {
+        "temperature": 41,
+        "condition": "Extremely hot and sunny"
+      },
+      "7": {
+        "temperature": 42,
+        "condition": "Extremely hot and sunny"
+      },
+      "8": {
+        "temperature": 41,
+        "condition": "Extremely hot and sunny"
+      },
+      "9": {
+        "temperature": 39,
+        "condition": "Extremely hot and sunny"
+      },
+      "10": {
+        "temperature": 35,
+        "condition": "Hot and sunny"
+      },
+      "11": {
+        "temperature": 30,
+        "condition": "Warm and sunny"
+      },
+      "12": {
+        "temperature": 25,
+        "condition": "Warm and sunny"
+      }
+    },
+    "Istanbul": {
+      "1": {
+        "temperature": 9,
+        "condition": "Cool with rain likely"
+      },
+      "2": {
+        "temperature": 10,
+        "condition": "Cool with rain likely"
+      },
+      "3": {
+        "temperature": 12,
+        "condition": "Cool with rain likely"
+      },
+      "4": {
+        "temperature": 17,
+        "condition": "Mild and partly cloudy"
+      },
+      "5": {
+        "temperature": 22,
+        "condition": "Mild and partly cloudy"
+      },
+      "6": {
+        "temperature": 27,
+        "condition": "Warm and sunny"
+      },
+      "7": {
+        "temperature": 29,
+        "condition": "Warm and sunny"
+      },
+      "8": {
+        "temperature": 29,
+        "condition": "Warm and sunny"
+      },
+      "9": {
+        "temperature": 25,
+        "condition": "Warm and sunny"
+      },
+      "10": {
+        "temperature": 20,
+        "condition": "Mild and partly cloudy"
+      },
+      "11": {
+        "temperature": 15,
+        "condition": "Cool with rain likely"
+      },
+      "12": {
+        "temperature": 11,
+        "condition": "Cool with rain likely"
+      }
+    },
+    "Kuala Lumpur": {
+      "1": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "2": {
+        "temperature": 33,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "3": {
+        "temperature": 33,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "4": {
+        "temperature": 33,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "5": {
+        "temperature": 33,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "6": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "7": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "8": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "9": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "10": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "11": {
+        "temperature": 32,
+        "condition": "Hot and humid, afternoon showers likely"
+      },
+      "12": {
+        "temperature": 31,
+        "condition": "Hot and humid, afternoon showers likely"
+      }
+    }
+  }
+}

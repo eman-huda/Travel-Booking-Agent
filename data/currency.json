@@ -1,0 +1,16 @@
+{
+  "note": "Mock static exchange rates. Not live market data.",
+  "base": "USD",
+  "as_of": "2026-10-01",
+  "rates": {
+    "USD": 1.0,
+    "AED": 3.6725,
+    "PKR": 281.5,
+    "QAR": 3.64,
+    "TRY": 41.2,
+    "MYR": 4.24,
+    "EUR": 0.86,
+    "GBP": 0.75,
+    "SAR": 3.75
+  }
+}

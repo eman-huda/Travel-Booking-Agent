@@ -1,0 +1,502 @@
+{
+  "note": "Mock sample data for testing. Not verified travel advice.",
+  "cities": [
+    {
+      "name": "Islamabad",
+      "aliases": [
+        "isb",
+        "islamabad",
+        "rawalpindi"
+      ],
+      "iata": "ISB",
+      "country": "Pakistan",
+      "tz_offset": 5,
+      "local_currency": "PKR",
+      "lat": 33.6844,
+      "lon": 73.0479,
+      "is_destination": false
+    },
+    {
+      "name": "Lahore",
+      "aliases": [
+        "lhe",
+        "lahore"
+      ],
+      "iata": "LHE",
+      "country": "Pakistan",
+      "tz_offset": 5,
+      "local_currency": "PKR",
+      "lat": 31.5204,
+      "lon": 74.3587,
+      "is_destination": false
+    },
+    {
+      "name": "Karachi",
+      "aliases": [
+        "khi",
+        "karachi"
+      ],
+      "iata": "KHI",
+      "country": "Pakistan",
+      "tz_offset": 5,
+      "local_currency": "PKR",
+      "lat": 24.8607,
+      "lon": 67.0011,
+      "is_destination": false
+    },
+    {
+      "name": "Dubai",
+      "aliases": [
+        "dxb",
+        "dubai"
+      ],
+      "iata": "DXB",
+      "country": "United Arab Emirates",
+      "tz_offset": 4,
+      "local_currency": "AED",
+      "lat": 25.2048,
+      "lon": 55.2708,
+      "is_destination": true,
+      "description": "Sample data: a large Gulf city known for modern architecture, shopping districts, a historic creek area and desert excursions.",
+      "transport": [
+        "Sample data: Dubai Metro Red and Green lines connect the airport area, Deira, Downtown and the Marina.",
+        "Sample data: metered taxis and ride-hailing apps operate citywide.",
+        "Sample data: abras (wooden water taxis) cross Dubai Creek between Deira and Bur Dubai."
+      ],
+      "general_info": [
+        "Sample data: summer daytime temperatures are very high; plan outdoor activities for mornings and evenings.",
+        "Sample data: modest dress is expected in heritage areas and religious sites.",
+        "Sample data: check official government sources for current entry and visa requirements before travel."
+      ],
+      "attractions": [
+        {
+          "attraction_id": "DXB-A01",
+          "name": "Al Fahidi Historical Neighbourhood walk",
+          "category": "heritage",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A02",
+          "name": "Abra ride across Dubai Creek",
+          "category": "heritage",
+          "estimated_cost": 1,
+          "currency": "USD",
+          "duration_hours": 1.0,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A03",
+          "name": "Gold and Spice Souks",
+          "category": "market",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A04",
+          "name": "Dubai Frame",
+          "category": "landmark",
+          "estimated_cost": 14,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DXB-A05",
+          "name": "Etihad Museum",
+          "category": "museum",
+          "estimated_cost": 7,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DXB-A06",
+          "name": "Dubai Mall and fountain show",
+          "category": "shopping",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.5,
+          "best_time": "evening",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DXB-A07",
+          "name": "Dubai Marina promenade walk",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A08",
+          "name": "Jumeirah public beach",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A09",
+          "name": "Burj Khalifa observation deck",
+          "category": "landmark",
+          "estimated_cost": 45,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DXB-A10",
+          "name": "Museum of the Future",
+          "category": "museum",
+          "estimated_cost": 40,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DXB-A11",
+          "name": "Desert safari with dinner",
+          "category": "excursion",
+          "estimated_cost": 70,
+          "currency": "USD",
+          "duration_hours": 6.0,
+          "best_time": "afternoon",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DXB-A12",
+          "name": "Dubai Aquarium and Underwater Zoo",
+          "category": "family",
+          "estimated_cost": 50,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": true
+        }
+      ]
+    },
+    {
+      "name": "Istanbul",
+      "aliases": [
+        "ist",
+        "istanbul"
+      ],
+      "iata": "IST",
+      "country": "Turkey",
+      "tz_offset": 3,
+      "local_currency": "TRY",
+      "lat": 41.0082,
+      "lon": 28.9784,
+      "is_destination": true,
+      "description": "Sample data: a city spanning Europe and Asia across the Bosphorus, with Byzantine and Ottoman landmarks, bazaars and ferry routes.",
+      "transport": [
+        "Sample data: trams, metro lines and Bosphorus ferries connect the main districts.",
+        "Sample data: a rechargeable transit card is used across public transport."
+      ],
+      "general_info": [
+        "Sample data: winters are cool and wet; summers are warm.",
+        "Sample data: dress modestly when visiting mosques.",
+        "Sample data: check official sources for current entry requirements."
+      ],
+      "attractions": [
+        {
+          "attraction_id": "IST-A01",
+          "name": "Hagia Sophia exterior and square",
+          "category": "heritage",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "IST-A02",
+          "name": "Blue Mosque visit",
+          "category": "heritage",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.0,
+          "best_time": "morning",
+          "indoor": true
+        },
+        {
+          "attraction_id": "IST-A03",
+          "name": "Grand Bazaar",
+          "category": "market",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "IST-A04",
+          "name": "Topkapi Palace",
+          "category": "museum",
+          "estimated_cost": 30,
+          "currency": "USD",
+          "duration_hours": 3.0,
+          "best_time": "morning",
+          "indoor": true
+        },
+        {
+          "attraction_id": "IST-A05",
+          "name": "Bosphorus public ferry ride",
+          "category": "outdoors",
+          "estimated_cost": 2,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "afternoon",
+          "indoor": false
+        },
+        {
+          "attraction_id": "IST-A06",
+          "name": "Galata Tower",
+          "category": "landmark",
+          "estimated_cost": 30,
+          "currency": "USD",
+          "duration_hours": 1.0,
+          "best_time": "evening",
+          "indoor": true
+        },
+        {
+          "attraction_id": "IST-A07",
+          "name": "Istiklal Avenue evening walk",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "IST-A08",
+          "name": "Basilica Cistern",
+          "category": "heritage",
+          "estimated_cost": 25,
+          "currency": "USD",
+          "duration_hours": 1.0,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "IST-A09",
+          "name": "Spice Bazaar",
+          "category": "market",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.0,
+          "best_time": "morning",
+          "indoor": true
+        }
+      ]
+    },
+    {
+      "name": "Doha",
+      "aliases": [
+        "doh",
+        "doha"
+      ],
+      "iata": "DOH",
+      "country": "Qatar",
+      "tz_offset": 3,
+      "local_currency": "QAR",
+      "lat": 25.2854,
+      "lon": 51.531,
+      "is_destination": true,
+      "description": "Sample data: Qatar's capital on the Gulf coast, with a waterfront Corniche, museums and a restored market quarter.",
+      "transport": [
+        "Sample data: Doha Metro lines serve the airport, West Bay and the old town.",
+        "Sample data: taxis and ride-hailing apps are widely used."
+      ],
+      "general_info": [
+        "Sample data: summer temperatures are very high; plan outdoor time early or late.",
+        "Sample data: check official sources for current entry requirements."
+      ],
+      "attractions": [
+        {
+          "attraction_id": "DOH-A01",
+          "name": "Souq Waqif",
+          "category": "market",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DOH-A02",
+          "name": "Museum of Islamic Art",
+          "category": "museum",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "morning",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DOH-A03",
+          "name": "Corniche waterfront walk",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DOH-A04",
+          "name": "National Museum of Qatar",
+          "category": "museum",
+          "estimated_cost": 14,
+          "currency": "USD",
+          "duration_hours": 2.5,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "DOH-A05",
+          "name": "Katara Cultural Village",
+          "category": "heritage",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DOH-A06",
+          "name": "The Pearl-Qatar marina",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "DOH-A07",
+          "name": "Desert and inland sea tour",
+          "category": "excursion",
+          "estimated_cost": 80,
+          "currency": "USD",
+          "duration_hours": 5.0,
+          "best_time": "afternoon",
+          "indoor": false
+        }
+      ]
+    },
+    {
+      "name": "Kuala Lumpur",
+      "aliases": [
+        "kul",
+        "kuala lumpur",
+        "kl"
+      ],
+      "iata": "KUL",
+      "country": "Malaysia",
+      "tz_offset": 8,
+      "local_currency": "MYR",
+      "lat": 3.139,
+      "lon": 101.6869,
+      "is_destination": true,
+      "description": "Sample data: Malaysia's capital, known for its skyline, street food, markets and nearby limestone caves.",
+      "transport": [
+        "Sample data: LRT, MRT and monorail lines connect central districts.",
+        "Sample data: an express rail link connects the airport with KL Sentral."
+      ],
+      "general_info": [
+        "Sample data: the climate is hot and humid year round with frequent afternoon showers.",
+        "Sample data: check official sources for current entry requirements."
+      ],
+      "attractions": [
+        {
+          "attraction_id": "KUL-A01",
+          "name": "Batu Caves",
+          "category": "heritage",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.5,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "KUL-A02",
+          "name": "Petronas Towers skybridge",
+          "category": "landmark",
+          "estimated_cost": 25,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "KUL-A03",
+          "name": "Jalan Alor food street",
+          "category": "food",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "evening",
+          "indoor": false
+        },
+        {
+          "attraction_id": "KUL-A04",
+          "name": "Central Market",
+          "category": "market",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "KUL-A05",
+          "name": "Perdana Botanical Gardens",
+          "category": "outdoors",
+          "estimated_cost": 0,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "morning",
+          "indoor": false
+        },
+        {
+          "attraction_id": "KUL-A06",
+          "name": "Islamic Arts Museum",
+          "category": "museum",
+          "estimated_cost": 5,
+          "currency": "USD",
+          "duration_hours": 2.0,
+          "best_time": "afternoon",
+          "indoor": true
+        },
+        {
+          "attraction_id": "KUL-A07",
+          "name": "KL Tower observation deck",
+          "category": "landmark",
+          "estimated_cost": 25,
+          "currency": "USD",
+          "duration_hours": 1.5,
+          "best_time": "evening",
+          "indoor": true
+        }
+      ]
+    }
+  ]
+}
