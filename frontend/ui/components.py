@@ -47,8 +47,9 @@ def export_button(record: RunRecord, key: str) -> None:
 
 
 # ------------------------------------------------------------------ header
-def header(provider: str, model: str, test_mode: bool, research_mode: bool) -> None:
-    modes = [badge(f"{provider}: {model}", "info")]
+def header(provider: str, model: str, test_mode: bool, research_mode: bool, data_mode: str = "live") -> None:
+    modes = [badge("Live data" if data_mode == "live" else "Mock data", "success" if data_mode == "live" else "info"),
+             badge(f"{provider}: {model}", "info")]
     modes.append(badge("Test mode on", "retrying") if test_mode else badge("Normal mode", "success"))
     if research_mode:
         modes.append(badge("Research view", "info"))
@@ -122,16 +123,22 @@ def flight_options(record: RunRecord) -> None:
         st.info("No validated flight options for this run. See the Agent trace tab for what happened.")
         return
     sel = s.selected_flight.flight_id if s.selected_flight else None
-    st.caption(f"{len(s.flights)} validated options. Prices are per person for the round trip, in USD.")
+    st.caption(f"{len(s.flights)} validated options. Prices are per person for the round trip, in USD, "
+               f"as shown at search time.")
     for f in sorted(s.flights, key=lambda x: x.price):
         chosen = f.flight_id == sel
+        shown = s.selected_flight if chosen else f
+        back = (f"{e(shown.return_flight_number)} {shown.return_departure:%d %b %H:%M} → {shown.return_arrival:%d %b %H:%M}"
+                if shown.return_departure else "Return options are fetched for the selected flight only")
+        airports = f", {e(f.origin_airport)} to {e(f.destination_airport)}" if f.origin_airport else ""
+        f = shown
         st.markdown(f"""
         <div class="card {'selected' if chosen else ''}">
           <div class="card-top"><div><span class="card-title">{e(f.airline)} {e(f.flight_number)}</span>
             {badge('Selected', 'info', solid=True) if chosen else ''}</div><div class="price">{money(f.price, f.currency)}</div></div>
           <div class="legs">
             <div><b>Out</b> {f.departure:%d %b %H:%M} → {f.arrival:%H:%M}<br><span class="card-meta">{e(f.duration)}, {'direct' if f.stops == 0 else f'{f.stops} stop'}</span></div>
-            <div><b>Back</b> {e(f.return_flight_number)} {f.return_departure:%d %b %H:%M} → {f.return_arrival:%d %b %H:%M}<br><span class="card-meta">{e(f.cabin)}</span></div>
+            <div><b>Back</b> {back}<br><span class="card-meta">{e(f.cabin)}{airports}</span></div>
           </div>
         </div>""", unsafe_allow_html=True)
 
@@ -159,6 +166,7 @@ def hotel_options(record: RunRecord) -> None:
                 {badge('Selected', 'info', solid=True) if chosen else ''}</div><div class="price">{money(h.nightly_price, h.currency)}</div></div>
               <div class="card-meta">{e(h.location)}, rated {h.rating:g} of 5, {e(avail.lower())}</div>
               <div class="chips">{chips}</div>
+              {f'<div class="card-meta" style="margin-top:.4rem"><a href="{e(h.link)}" target="_blank" rel="noopener">View the real listing</a></div>' if h.link else ''}
             </div>""", unsafe_allow_html=True)
     if s.excluded_hotel_ids:
         st.warning("Excluded because the service returned conflicting data: " + ", ".join(s.excluded_hotel_ids))

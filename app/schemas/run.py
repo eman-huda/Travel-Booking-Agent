@@ -23,7 +23,7 @@ class RunRequest(BaseModel):
     request_text: str = Field(min_length=3, max_length=4000)
     overrides: RequestOverrides = Field(default_factory=RequestOverrides)
     failure_mode: str = "none"
-    simulate_booking: bool = False
+    simulate_booking: bool = True  # sandbox booking only; no real booking is ever possible
 
 
 class RunMetrics(BaseModel):
@@ -56,6 +56,7 @@ class RunRecord(BaseModel):
     created_at: datetime
     llm_provider: str
     model: str
+    data_mode: str = "mock"
     scenario_id: str
     failure_mode: str
     user_request: str
@@ -80,6 +81,7 @@ class RunRecord(BaseModel):
             "failure_mode": self.failure_mode,
             "created_at": self.created_at.isoformat(),
             "llm": {"provider": self.llm_provider, "model": self.model},
+            "data_mode": self.data_mode,
             "initial_state": self.initial_state,
             "tool_trace": self.tool_trace,
             "events": self.events,

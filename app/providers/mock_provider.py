@@ -90,6 +90,14 @@ class MockTravelData(FlightProvider, HotelProvider, WeatherProvider, ExchangeRat
         return {"status": "success", "flights": flights, "retrieved_at": self._now(),
                 "total_results": len(flights), "source": self.source}
 
+    def get_return_flights(self, provider_ref, origin, destination, departure_date, return_date, passengers, flight_id=None):
+        found = self.search_flights(origin, destination, departure_date, return_date, passengers)
+        options = [{"return_flight_number": f["return_flight_number"], "airline": f["airline"],
+                    "return_departure": f["return_departure"], "return_arrival": f["return_arrival"],
+                    "duration_minutes": f["duration_minutes"], "stops": f["stops"], "price": f["price"],
+                    "currency": f["currency"]} for f in found["flights"] if f["flight_id"] == flight_id]
+        return {"status": "success", "options": options, "retrieved_at": self._now(), "source": self.source}
+
     # ---------- hotels ----------
     def search_hotels(self, destination, check_in, check_out, guests, budget):
         city = self.resolve_city(destination)

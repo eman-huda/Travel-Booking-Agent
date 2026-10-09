@@ -45,6 +45,7 @@ class AgentRunner:
     def __init__(self, settings: Settings | None = None, llm: LLMProvider | None = None, store: RunStore | None = None):
         self.settings = settings or get_settings()
         configure_logging(self.settings.log_level, self.settings.log_dir)
+        self.settings.validate_data()               # raises ConfigurationError with a clear message
         self.llm = llm or build_llm(self.settings)  # raises ConfigurationError with a clear message
         self.store = store or RunStore(self.settings.database_path)
 
@@ -114,7 +115,7 @@ class AgentRunner:
         final_dump = redact(state.model_dump(mode="json", exclude={"tool_trace", "last_tool_result"}))
         return RunRecord(
             run_id=run_id, agent_version=self.settings.agent_version, created_at=datetime.now(timezone.utc),
-            llm_provider=self.settings.llm_provider, model=self.settings.active_model,
+            llm_provider=self.settings.llm_provider, model=self.settings.active_model, data_mode=self.settings.data_mode,
             scenario_id=scenario.scenario_id, failure_mode=scenario.key, user_request=request.request_text,
             status=status, final_response=final_response, initial_state=redact(initial_dump), final_state=final_dump,
             tool_trace=tool_events, events=events, errors=errors,

@@ -2,7 +2,9 @@
 
 A runnable, observable AI travel agent built as a research testbed for **GreatTest**, an agent-testing project.
 
-This is not a booking platform. It is a controlled environment where an LLM-driven LangGraph agent plans a trip using explicit tools, every tool call is traced, failures can be injected deterministically, and every run can be exported for analysis. No real booking, payment, cancellation or email can happen.
+The agent works on **real travel data**: live flights and hotels from Google Flights and Google Hotels (through SerpApi), real exchange rates, real weather, real airports and real destination information. It then **books the selected flight and hotel in a sandbox**. Every booking is simulated in code, so no real booking, payment, cancellation or email can ever happen.
+
+Every tool call is traced, failures can be injected deterministically on top of the real data, and every run can be exported for GreatTest. A mock data mode is kept for offline, fully reproducible tests.
 
 ## Contents
 
@@ -36,7 +38,7 @@ The agent:
 5. validates every tool result and recovers from failures with a bounded retry policy
 6. selects a flight and hotel against the budget and preferences
 7. builds and validates a day-by-day itinerary
-8. optionally makes simulated sandbox bookings
+8. books the flight and hotel in the sandbox (simulated; on by default)
 9. explains the recommendation and states plainly what could not be verified
 
 ## 2. Architecture
@@ -116,33 +118,58 @@ pip install -r requirements.txt
 cp .env.example .env               # Windows: copy .env.example .env
 ```
 
-Then edit `.env` in the project root. Choose one LLM provider:
+Then edit `.env` in the project root. You need two things: a travel data source and an LLM.
 
-| Provider | Settings in `.env` | Key needed |
+### Travel data
+
+| Setting | Meaning |
+|---|---|
+| `DATA_MODE=live` (default) | Real data. Needs `SERPAPI_API_KEY`. |
+| `DATA_MODE=mock` | Local sample data. Offline, no key, fully reproducible. Used by the test suite. |
+| `SERPAPI_API_KEY` | Free key: create an account at https://serpapi.com, then copy the key from https://serpapi.com/manage-api-key. The free plan includes 250 searches a month. |
+| `SERPAPI_GL` | Google country for results (default `pk`). |
+| `LIVE_CACHE_TTL_HOURS` | Identical live searches are reused for this many hours (default 6) to save quota. `0` disables the cache. |
+
+A normal live run uses **3 SerpApi searches** (outbound flights, return flights for the chosen outbound, hotels). Repeating the same request within the cache window uses none, so you can run all 15 failure scenarios on the same request for about 3 searches in total.
+
+### LLM
+
+| Provider | Settings in `.env` | Key |
 |---|---|---|
-| OpenAI (default) | `LLM_PROVIDER=openai`, `OPENAI_API_KEY=sk-...`, `LLM_MODEL=gpt-4.1-mini` (or your chosen model) | Yes |
-| Ollama (local) | `LLM_PROVIDER=ollama`, `OLLAMA_MODEL=llama3.1`, `OLLAMA_BASE_URL=http://localhost:11434` | No |
-| Stub (offline, deterministic) | `LLM_PROVIDER=stub` | No |
+| Groq (free) | `LLM_PROVIDER=groq`, `GROQ_API_KEY=gsk_...`, `GROQ_MODEL=openai/gpt-oss-120b` | Free from https://console.groq.com/keys |
+| OpenAI | `LLM_PROVIDER=openai`, `OPENAI_API_KEY=sk-...`, `LLM_MODEL=gpt-4.1-mini` | Paid |
+| Ollama (local) | `LLM_PROVIDER=ollama`, `OLLAMA_MODEL=llama3.1` | None |
+| Stub (offline) | `LLM_PROVIDER=stub` | None |
 
-`OPENAI_API_KEY` is the only secret in the system. It is read through Pydantic Settings as a `SecretStr`, never shown in the UI or API, and redacted from logs. If it is missing or still the placeholder, the API refuses to start and the UI shows exactly what to fix.
+If a model is retired by the provider, change only the model line. Keys are read as `SecretStr`, never shown in the UI or API, never written to traces or the cache, and redacted from logs. If a required key is missing, the API refuses to start and the UI shows exactly what to fix.
 
-Optional read-only real data providers (no keys required):
+Fully offline (no keys at all): `DATA_MODE=mock` and `LLM_PROVIDER=stub`.
 
-| Setting | Values | Notes |
-|---|---|---|
-| `WEATHER_PROVIDER` | `mock`, `open_meteo` | Open-Meteo forecasts cover about 16 days; later dates fall back to the mock monthly average. |
-| `EXCHANGE_PROVIDER` | `mock`, `open_er_api` | Daily reference rates from open.er-api.com. |
-
-Flights and hotels always use the mock provider. Other useful settings:
+Other useful settings:
 
 | Setting | Default | Meaning |
 |---|---|---|
 | `MAX_TOOL_RETRIES` | 1 | Retries per logical tool call |
 | `MAX_TOTAL_RETRIES` | 6 | Retry cap for a whole run |
-| `TOOL_TIMEOUT_SECONDS` | 5 | Real timeout applied to every tool call |
+| `TOOL_TIMEOUT_SECONDS` | 30 | Real timeout applied to every tool call |
 | `INJECTED_TIMEOUT_DELAY_SECONDS` | 0.5 | How long an injected timeout waits before failing |
 | `STALE_DATA_MAX_AGE_HOURS` | 24 | Freshness limit for search results |
 | `FAILURE_MODE` | none | Default failure mode for API and CLI runs |
+
+### What is real and what is simulated (live mode)
+
+| Part | Source | Real? |
+|---|---|---|
+| Flights (outbound and return) | Google Flights via SerpApi | Real, as shown to shoppers at search time |
+| Hotels | Google Hotels via SerpApi | Real listings and nightly prices, with a link to each listing |
+| City lookup and airports | Open-Meteo geocoding and the OurAirports dataset (`data/airports.csv`) | Real |
+| Local currency of a country | GeoNames country table (`data/countries.csv`) | Real |
+| Exchange rates | open.er-api.com | Real daily rates |
+| Weather | Open-Meteo forecast (up to about 15 days ahead), otherwise the observed weather on the same date last year | Real |
+| Description | Wikipedia | Real |
+| Transport and safety notes | Wikivoyage | Real |
+| Attractions and their prices | Wikivoyage listings for the city and its districts, with OpenStreetMap as a backup | Real; prices are shown as published and are not added to the total |
+| Flight and hotel bookings | Sandbox ledger in `app/safety/sandbox.py` | **Simulated. No real booking is possible.** |
 
 ## 5. Running the backend
 
@@ -211,7 +238,8 @@ API at http://localhost:8000 and dashboard at http://localhost:8501. Secrets are
 | `search_hotels` | READ_ONLY | Hotels for the stay, optionally capped by a nightly USD price |
 | `get_weather` | READ_ONLY | Expected weather for a destination and date |
 | `get_exchange_rate` | READ_ONLY | Rate between two ISO currency codes |
-| `get_destination_info` | READ_ONLY | Description, attractions with sample costs, transport, general information |
+| `get_destination_info` | READ_ONLY | Description, attractions (with published prices where available), transport, general information |
+| `get_return_flights` | READ_ONLY | Return-leg options for the chosen outbound flight (live searches return the outbound first) |
 | `create_itinerary` | READ_ONLY | Builds the day-by-day itinerary |
 | `validate_itinerary` | READ_ONLY | Checks dates, missing days, ordering, flight and hotel dates, duplicates, currency and budget |
 | `book_flight` | SIMULATED_WRITE | Sandbox only; returns a `TEST-FLIGHT-nnn` ID |
@@ -219,7 +247,9 @@ API at http://localhost:8000 and dashboard at http://localhost:8501. Secrets are
 
 Each tool has a name, description, Pydantic input schema (unknown arguments are rejected), Pydantic output schema, permission and handler. `GET /tools` returns the JSON schemas.
 
-Mock data covers Islamabad, Lahore and Karachi as origins, and Dubai, Istanbul, Doha and Kuala Lumpur as destinations. Airline names are real but schedules and fares are invented; hotels are fictional. Weather is a monthly climate average. None of it is travel advice.
+In live mode the agent works for any city that has a nearby airport. Mock mode covers Islamabad, Lahore and Karachi as origins, and Dubai, Istanbul, Doha and Kuala Lumpur as destinations, with invented schedules and fictional hotels.
+
+Failure injection works the same way in both modes: it is applied on top of the real responses in live mode.
 
 ## 9. Failure injection
 
@@ -254,7 +284,7 @@ Rules the injector follows:
 * **Deterministic:** the same scenario and attempt number always produce the same result. Nothing is random.
 * **Logged:** every injected failure is written to the trace with its scenario ID, kind, target tool, attempt and effect.
 * **Invisible to the agent:** the agent receives an ordinary error such as `Hotel search service did not respond within 5.0s` or `HTTP 503`. The words "injected" and the scenario ID never reach it.
-* **Booking unavailable** turns on sandbox booking automatically and replaces the call before it reaches the sandbox ledger, so no phantom booking is recorded.
+* **Booking unavailable** needs the booking step, so it turns on sandbox booking automatically and replaces the call before it reaches the sandbox ledger, so no phantom booking is recorded.
 * Injected timeouts wait `INJECTED_TIMEOUT_DELAY_SECONDS` (0.5 seconds by default) rather than the full timeout so experiments stay quick. Set it to 5 for realistic durations.
 
 ## 10. Testing
@@ -263,7 +293,7 @@ Rules the injector follows:
 pytest
 ```
 
-The suite uses the offline stub provider, so it needs no key and no network.
+The suite runs offline: mock data, the stub LLM, and recorded SerpApi-style responses for the live provider tests. It needs no keys and no network, and uses no API quota.
 
 | File | Covers |
 |---|---|
@@ -276,12 +306,13 @@ The suite uses the offline stub provider, so it needs no key and no network.
 | `test_agent_e2e.py` | Normal end-to-end run, hotel timeout end-to-end recovery, clarification on missing date, UI overrides, persistence and export |
 | `test_api.py` | Health, catalogues, run and export, invalid failure mode |
 | `test_ui.py` | Headless Streamlit run in normal and failure modes, plus history page |
+| `test_live_providers.py` | SerpApi flight, return and hotel mapping, city and airport resolution, Wikivoyage parsing, Overpass outage handling, live end-to-end run with sandbox booking, key never cached |
 
 Scenario suite with a comparison table:
 
 ```bash
-python scripts/run_scenario_suite.py --stub                 # offline
-python scripts/run_scenario_suite.py                        # uses your .env provider (about 45 OpenAI calls)
+python scripts/run_scenario_suite.py --stub                 # fully offline (mock data, stub LLM)
+python scripts/run_scenario_suite.py                        # your .env settings: live data and your LLM
 python scripts/run_scenario_suite.py --stub --export exports/
 ```
 
@@ -289,7 +320,7 @@ python scripts/run_scenario_suite.py --stub --export exports/
 
 1. Start the dashboard and leave the default request: "I want to travel from Islamabad to Dubai for 5 days. My budget is $1500. I prefer a comfortable hotel and activities that are not too expensive."
 2. Select Run agent. The agent asks for your departure date because none was given, and makes no tool calls.
-3. Answer, for example "Departure date: 12 November 2026", and select Continue. The agent checks currency, searches flights and hotels, checks weather, gets destination information, selects options, builds and validates the itinerary, and shows the full trace.
+3. Answer, for example "Departure date: 12 November 2026", and select Continue. The agent checks currency, searches real flights and hotels, checks weather, gets destination information, selects options, fetches the return flight, builds and validates the itinerary, books both in the sandbox and shows the full trace.
 4. Turn on Test mode, choose Hotel Search Timeout and select Run agent again with the same request.
 5. Open Agent trace: the hotel search fails, the validation node records a timeout and retries, the second search succeeds and the run continues. The Testing tab shows expected and actual behaviour side by side.
 
@@ -312,6 +343,8 @@ START -> understand_request --(missing info)--> clarify -> END
                                               | ok
                          get_weather -> get_destination_info -> select_options <--- repair (over budget)
                                                                      |                    |
+                                                          select_return_flight            |
+                                                                     |                    |
                                                               create_itinerary -> validate_itinerary
                                                                      ^                    | book (optional)
                                                                      +--- alternative --- book_trip
@@ -323,6 +356,7 @@ START -> understand_request --(missing info)--> clarify -> END
 * **Tool steps:** search nodes only call their tool. They never decide what to do with the result.
 * **Validation steps:** `validate_flights` and `validate_hotels` check the result and choose continue, retry or abort. They detect errors, stale data, partial results, duplicates, contradictions, route and date mismatches and currency mismatches.
 * **Deterministic steps:** selection, itinerary building and itinerary validation are code, so results are reproducible and auditable.
+* **Return leg:** Google Flights returns outbound options first. After choosing the outbound flight, `select_return_flight` calls `get_return_flights` and records the confirmed round-trip fare. If it fails, the itinerary is still built but the return schedule is flagged as unverified.
 
 ### State
 
@@ -371,7 +405,7 @@ Retries are counted per logical call (`MAX_TOOL_RETRIES`) and per run (`MAX_TOTA
 * **Allowlist:** only tools in `TOOL_POLICY` (`app/safety/permissions.py`) can be registered or executed. Any other name returns `unknown_tool`.
 * **Permissions:** tools are `READ_ONLY` or `SIMULATED_WRITE`. `REAL_WRITE` exists only so that registering such a tool raises `SafetyViolation`. A tool whose declared permission differs from policy is also rejected.
 * **Output check:** a simulated write must return `environment: "sandbox"` or the result is rejected.
-* **No real side effects:** the only booking service is an in-memory ledger (`SandboxBookingService`) with no payment, airline, hotel, email or network client. A test blocks all network access and confirms bookings still work.
+* **No real side effects:** SerpApi and every other data source are read-only search APIs with no booking capability. The only booking service is an in-memory ledger (`SandboxBookingService`) with no payment, airline, hotel, email or network client. A test blocks all network access and confirms bookings still work.
 * **Validated arguments:** every input is validated by Pydantic with unknown fields forbidden. The LLM cannot run shell commands or Python; it only produces text and JSON that the agent code validates.
 * **Secrets and personal data:** the API key is a `SecretStr`, never logged or returned. Logs and exports are redacted for keys, tokens and passwords. Card numbers (Luhn-checked) and CVV codes are removed from the request before it reaches the LLM.
 * **UI labelling:** sandbox bookings are labelled as simulated with no real transaction.
@@ -416,8 +450,11 @@ To check behavioural consistency, run the same request and scenario several time
 
 ## 14. Known limitations
 
-* Flights and hotels are mock data only. Prices and schedules are invented for testing.
-* With the stub provider, extraction is rule-based and handles common phrasings, not every possible wording.
-* The real OpenAI path was tested against a fake client only; your first run with a real key is its first live test.
+* Live prices are what Google shows a shopper at search time. They are not guaranteed, bookable fares, and they change, so live runs are not exactly repeatable. Use mock mode (or the live cache) when you need identical runs.
+* Fares are searched per person. For groups, seat availability for everyone is not confirmed and the agent says so.
+* Attraction prices are kept as the text Wikivoyage publishes (for example "AED 3"). They are shown but not converted or added to the total.
+* Public OpenStreetMap (Overpass) servers are often overloaded. They are only a backup to Wikivoyage, and failures are reported as unverified.
+* City lookups (geocoding) happen inside tools and are cached; they are infrastructure, not separate agent decisions, so they do not appear as their own tool calls.
+* The SerpApi integration was tested against recorded responses in the SerpApi format, and every free data source was tested live. The first run with your SerpApi key is the first live SerpApi call.
+* The live OpenAI and Groq paths were tested against fake clients only.
 * Docker files were syntax-checked but not built in the development environment.
-* Optional live weather and exchange providers were not exercised against the live services.

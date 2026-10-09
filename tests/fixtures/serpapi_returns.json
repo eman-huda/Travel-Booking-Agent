@@ -1,0 +1,56 @@
+{
+ "best_flights": [
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-16 18:40"
+     },
+     "arrival_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-16 22:55"
+     },
+     "duration": 195,
+     "airplane": "Airbus A320",
+     "airline": "flydubai",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "FZ 353",
+     "legroom": "30 in"
+    }
+   ],
+   "total_duration": 195,
+   "price": 312,
+   "booking_token": "B1"
+  },
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-16 02:30"
+     },
+     "arrival_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-16 06:40"
+     },
+     "duration": 190,
+     "airplane": "Airbus A320",
+     "airline": "flydubai",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "FZ 351",
+     "legroom": "30 in"
+    }
+   ],
+   "total_duration": 190,
+   "price": 298,
+   "booking_token": "B2"
+  }
+ ]
+}

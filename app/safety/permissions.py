@@ -19,6 +19,7 @@ TOOL_POLICY: dict[str, Permission] = {
     "get_weather": Permission.READ_ONLY,
     "get_exchange_rate": Permission.READ_ONLY,
     "get_destination_info": Permission.READ_ONLY,
+    "get_return_flights": Permission.READ_ONLY,
     "create_itinerary": Permission.READ_ONLY,
     "validate_itinerary": Permission.READ_ONLY,
     "book_flight": Permission.SIMULATED_WRITE,

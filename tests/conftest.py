@@ -27,7 +27,7 @@ DEMO_REQUEST = (f"I want to travel from Islamabad to Dubai on {DEPART.isoformat(
 
 @pytest.fixture
 def settings(tmp_path) -> Settings:
-    return Settings(_env_file=None, llm_provider="stub", database_path=tmp_path / "runs.db", log_dir=tmp_path / "logs",
+    return Settings(_env_file=None, llm_provider="stub", data_mode="mock", database_path=tmp_path / "runs.db", log_dir=tmp_path / "logs",
                     injected_timeout_delay_seconds=0.0, log_level="WARNING")
 
 

@@ -39,13 +39,16 @@ class Flight(BaseModel):
     arrival: datetime
     duration: str
     duration_minutes: int = Field(gt=0)
-    return_flight_number: str
-    return_departure: datetime
-    return_arrival: datetime
+    return_flight_number: str | None = None   # live searches fill the return leg after selection
+    return_departure: datetime | None = None
+    return_arrival: datetime | None = None
     price: float = Field(gt=0)
     currency: str
     stops: int = Field(ge=0, le=3)
     cabin: str = "Economy"
+    origin_airport: str | None = None
+    destination_airport: str | None = None
+    provider_ref: str | None = None          # provider token used to look up return options
 
     @field_validator("currency")
     @classmethod
@@ -56,9 +59,9 @@ class Flight(BaseModel):
     def _ordering(self) -> "Flight":
         if self.arrival <= self.departure:
             raise ValueError("arrival must be after departure")
-        if self.return_departure <= self.arrival:
+        if self.return_departure is not None and self.return_departure <= self.arrival:
             raise ValueError("return departure must be after outbound arrival")
-        if self.return_arrival <= self.return_departure:
+        if self.return_departure is not None and self.return_arrival is not None and self.return_arrival <= self.return_departure:
             raise ValueError("return arrival must be after return departure")
         return self
 
@@ -76,6 +79,9 @@ class Hotel(BaseModel):
     amenities: list[str] = Field(default_factory=list)
     availability: bool | None  # None means the provider did not confirm availability
     room_type: str = "Standard room"
+    hotel_class: float | None = None
+    reviews: int | None = None
+    link: str | None = None
 
     @field_validator("currency")
     @classmethod
@@ -87,11 +93,13 @@ class Attraction(BaseModel):
     attraction_id: str
     name: str
     category: str
-    estimated_cost: float = Field(ge=0)
-    currency: str
+    estimated_cost: float | None = Field(None, ge=0)   # None when the data source has no price
+    currency: str | None = None
     duration_hours: float = Field(gt=0)
     best_time: Literal["morning", "afternoon", "evening", "any"] = "any"
     indoor: bool = False
+    price_note: str | None = None   # price text as published by the source, when not a clean number
+    source: str | None = None
 
 
 class WeatherReport(BaseModel):
@@ -100,7 +108,7 @@ class WeatherReport(BaseModel):
     date: date
     temperature: float
     condition: str
-    basis: Literal["forecast", "climate_average"] = "climate_average"
+    basis: Literal["forecast", "climate_average", "last_year_observed"] = "climate_average"
     source: str = "mock"
 
 
@@ -124,6 +132,7 @@ class DestinationInfo(BaseModel):
     attractions: list[Attraction]
     transport: list[str]
     general_info: list[str]
+    warnings: list[str] = Field(default_factory=list)
     source: str = "mock"
 
 

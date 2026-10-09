@@ -2,7 +2,7 @@
 
 Usage:
     python scripts/run_scenario_suite.py                # uses LLM_PROVIDER from .env
-    python scripts/run_scenario_suite.py --stub         # offline, deterministic
+    python scripts/run_scenario_suite.py --stub         # fully offline, deterministic (mock data)
     python scripts/run_scenario_suite.py --only hotel_timeout api_error
     python scripts/run_scenario_suite.py --export exports/   # also write GreatTest JSON per run
 """
@@ -26,13 +26,13 @@ DEFAULT_REQUEST = ("I want to travel from Islamabad to Dubai on 10 November 2026
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stub", action="store_true", help="use the offline deterministic LLM")
+    ap.add_argument("--stub", action="store_true", help="fully offline: deterministic LLM and mock travel data")
     ap.add_argument("--only", nargs="*", help="scenario keys to run")
     ap.add_argument("--request", default=DEFAULT_REQUEST)
     ap.add_argument("--export", type=Path, help="directory for GreatTest JSON exports")
     args = ap.parse_args()
 
-    overrides = {"llm_provider": "stub"} if args.stub else {}
+    overrides = {"llm_provider": "stub", "data_mode": "mock"} if args.stub else {}
     try:
         runner = AgentRunner(Settings(**overrides, log_level="WARNING"))
     except ConfigurationError as exc:

@@ -116,6 +116,36 @@ class DestinationOutput(BaseModel):
     attractions: list[Attraction]
     transport: list[str]
     general_info: list[str]
+    warnings: list[str] = Field(default_factory=list)
+    source: str = "mock"
+
+
+# ---------- get_return_flights ----------
+class GetReturnFlightsInput(StrictInput):
+    flight_id: str = Field(min_length=1)
+    provider_ref: str | None = None
+    origin: str = Field(min_length=2, max_length=60)
+    destination: str = Field(min_length=2, max_length=60)
+    departure_date: date
+    return_date: date
+    passengers: int = Field(ge=1, le=9)
+
+
+class ReturnFlightOption(BaseModel):
+    return_flight_number: str
+    airline: str
+    return_departure: datetime
+    return_arrival: datetime
+    duration_minutes: int = Field(gt=0)
+    stops: int = Field(ge=0, le=3)
+    price: float = Field(gt=0, description="Round-trip price per person for this outbound and return combination")
+    currency: str
+
+
+class ReturnFlightsOutput(BaseModel):
+    status: Literal["success"]
+    options: list[ReturnFlightOption]
+    retrieved_at: datetime
     source: str = "mock"
 
 

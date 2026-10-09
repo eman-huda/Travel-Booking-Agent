@@ -52,7 +52,7 @@ def test_simulated_write_must_return_sandbox_result(settings):
 
 
 def test_booking_never_runs_unless_requested(runner):
-    rec = runner.run(RunRequest(request_text=DEMO_REQUEST))
+    rec = runner.run(RunRequest(request_text=DEMO_REQUEST, simulate_booking=False))
     assert not any(e["tool_name"] in ("book_flight", "reserve_hotel") for e in rec.tool_trace)
 
 

@@ -1,0 +1,63 @@
+{
+ "properties": [
+  {
+   "type": "hotel",
+   "name": "Rove Downtown",
+   "description": "Casual hotel near Dubai Mall",
+   "link": "https://example.com/rove",
+   "property_token": "P1",
+   "rate_per_night": {
+    "lowest": "$110",
+    "extracted_lowest": 110
+   },
+   "hotel_class": "3-star hotel",
+   "extracted_hotel_class": 3,
+   "overall_rating": 4.4,
+   "reviews": 9000,
+   "amenities": [
+    "Free Wi-Fi",
+    "Pool",
+    "Fitness centre"
+   ]
+  },
+  {
+   "type": "hotel",
+   "name": "Hilton Garden Inn Al Mina",
+   "property_token": "P2",
+   "nearby_places": [
+    {
+     "name": "Jumeirah Mosque"
+    }
+   ],
+   "rate_per_night": {
+    "lowest": "$135",
+    "extracted_lowest": 135
+   },
+   "extracted_hotel_class": 4,
+   "overall_rating": 4.2,
+   "reviews": 3000,
+   "amenities": [
+    "Breakfast",
+    "Pool"
+   ]
+  },
+  {
+   "type": "hotel",
+   "name": "No Rate Hotel",
+   "property_token": "P3",
+   "overall_rating": 4.9
+  },
+  {
+   "type": "vacation_rental",
+   "name": "Marina Apartment",
+   "property_token": "P4",
+   "rate_per_night": {
+    "extracted_lowest": 95
+   },
+   "overall_rating": 4.0,
+   "amenities": [
+    "Kitchen"
+   ]
+  }
+ ]
+}

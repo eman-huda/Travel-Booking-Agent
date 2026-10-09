@@ -3,7 +3,7 @@ from app.schemas.run import RequestOverrides, RunRequest
 from tests.conftest import DEMO_REQUEST, DEPART
 
 EXPECTED_ORDER = ["get_exchange_rate", "search_flights", "search_hotels", "get_weather",
-                  "get_destination_info", "create_itinerary", "validate_itinerary"]
+                  "get_destination_info", "create_itinerary", "validate_itinerary", "book_flight", "reserve_hotel"]
 
 
 def test_normal_request_end_to_end(runner):
@@ -18,6 +18,8 @@ def test_normal_request_end_to_end(runner):
     assert st["validation_results"]["itinerary"]["valid"] is True
     assert st["itinerary"]["total_estimated_cost"] <= 1500
     assert "plan for Islamabad to Dubai" in rec.final_response
+    assert st["bookings"]["flight"]["booking_id"].startswith("TEST-FLIGHT-")
+    assert st["bookings"]["hotel"]["status"] == "CONFIRMED" and st["bookings"]["hotel"]["environment"] == "sandbox"
     nodes = [e["node"] for e in rec.events if e["event_type"] == "node" and e["status"] == "started"]
     assert nodes[0] == "understand_request" and nodes[-1] == "final_response"
 

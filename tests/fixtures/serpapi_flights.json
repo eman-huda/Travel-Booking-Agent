@@ -1,0 +1,142 @@
+{
+ "search_metadata": {
+  "status": "Success"
+ },
+ "best_flights": [
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-12 09:15"
+     },
+     "arrival_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-12 11:30"
+     },
+     "duration": 195,
+     "airplane": "Airbus A320",
+     "airline": "flydubai",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "FZ 354",
+     "legroom": "30 in"
+    }
+   ],
+   "total_duration": 195,
+   "price": 312,
+   "type": "Round trip",
+   "departure_token": "TOKEN_FZ354"
+  },
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-12 03:55"
+     },
+     "arrival_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-12 06:15"
+     },
+     "duration": 200,
+     "airplane": "Airbus A320",
+     "airline": "Emirates",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "EK 613",
+     "legroom": "30 in"
+    }
+   ],
+   "total_duration": 200,
+   "price": 455,
+   "type": "Round trip",
+   "departure_token": "TOKEN_EK613"
+  }
+ ],
+ "other_flights": [
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-12 08:10"
+     },
+     "arrival_airport": {
+      "name": "DOH Airport",
+      "id": "DOH",
+      "time": "2026-11-12 09:50"
+     },
+     "duration": 220,
+     "airplane": "Airbus A320",
+     "airline": "Qatar Airways",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "QR 615",
+     "legroom": "30 in"
+    },
+    {
+     "departure_airport": {
+      "name": "DOH Airport",
+      "id": "DOH",
+      "time": "2026-11-12 11:20"
+     },
+     "arrival_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-12 13:30"
+     },
+     "duration": 70,
+     "airplane": "Airbus A320",
+     "airline": "Qatar Airways",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "QR 1002",
+     "legroom": "30 in"
+    }
+   ],
+   "layovers": [
+    {
+     "duration": 90,
+     "name": "Hamad",
+     "id": "DOH"
+    }
+   ],
+   "total_duration": 380,
+   "price": 390,
+   "type": "Round trip",
+   "departure_token": "TOKEN_QR"
+  },
+  {
+   "flights": [
+    {
+     "departure_airport": {
+      "name": "ISB Airport",
+      "id": "ISB",
+      "time": "2026-11-12 12:00"
+     },
+     "arrival_airport": {
+      "name": "DXB Airport",
+      "id": "DXB",
+      "time": "2026-11-12 14:20"
+     },
+     "duration": 200,
+     "airplane": "Airbus A320",
+     "airline": "PIA",
+     "airline_logo": "https://example/logo.png",
+     "travel_class": "Economy",
+     "flight_number": "PK 233",
+     "legroom": "30 in"
+    }
+   ],
+   "total_duration": 200,
+   "type": "Round trip",
+   "departure_token": "TOKEN_NOPRICE"
+  }
+ ]
+}

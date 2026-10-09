@@ -35,7 +35,7 @@ def test_maximum_retry_limit_is_enforced(runner):
 
 
 def test_retry_limit_zero_means_no_retry(tmp_path):
-    s = Settings(_env_file=None, llm_provider="stub", max_tool_retries=0, database_path=tmp_path / "r.db",
+    s = Settings(_env_file=None, llm_provider="stub", data_mode="mock", max_tool_retries=0, database_path=tmp_path / "r.db",
                  injected_timeout_delay_seconds=0, log_level="WARNING")
     rec = AgentRunner(s).run(RunRequest(request_text=DEMO_REQUEST, failure_mode="hotel_timeout"))
     assert len(tool_attempts(rec, "search_hotels")) == 1 and rec.status == "graceful_failure"

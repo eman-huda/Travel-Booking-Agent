@@ -31,7 +31,8 @@ GRAPH_EDGES: list[tuple[str, str, str | None]] = [
     ("validate_hotels", "final_response", "abort"),
     ("get_weather", "get_destination_info", None),
     ("get_destination_info", "select_options", None),
-    ("select_options", "create_itinerary", "ok"),
+    ("select_options", "select_return_flight", "ok"),
+    ("select_return_flight", "create_itinerary", None),
     ("select_options", "final_response", "abort"),
     ("create_itinerary", "validate_itinerary", "ok"),
     ("create_itinerary", "final_response", "abort"),
@@ -48,7 +49,7 @@ def build_graph():
     g = StateGraph(TravelState)
     for name in ["understand_request", "clarify", "plan_trip", "get_currency", "search_flights", "validate_flights",
                  "search_hotels", "validate_hotels", "get_weather", "get_destination_info", "select_options",
-                 "create_itinerary", "validate_itinerary", "book_trip", "final_response"]:
+                 "select_return_flight", "create_itinerary", "validate_itinerary", "book_trip", "final_response"]:
         g.add_node(name, getattr(n, name))
 
     g.add_edge(START, "understand_request")
@@ -66,7 +67,8 @@ def build_graph():
     g.add_edge("get_weather", "get_destination_info")
     g.add_edge("get_destination_info", "select_options")
     g.add_conditional_edges("select_options", _route({"abort": 1}, "continue"),
-                            {"continue": "create_itinerary", "abort": "final_response"})
+                            {"continue": "select_return_flight", "abort": "final_response"})
+    g.add_edge("select_return_flight", "create_itinerary")
     g.add_conditional_edges("create_itinerary", _route({"abort": 1}, "continue"),
                             {"continue": "validate_itinerary", "abort": "final_response"})
     g.add_conditional_edges("validate_itinerary", _route({"repair": 1, "book": 1, "finish": 1}, "finish"),

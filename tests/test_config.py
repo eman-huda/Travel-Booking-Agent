@@ -56,3 +56,35 @@ def test_openai_provider_uses_responses_api():
     p = OpenAIProvider(api_key="unused", model="m", client=fake)
     assert p.generate_json(task="t", system="sys", prompt="p", context={}) == {"origin": "Islamabad"}
     assert fake.responses.kwargs["instructions"] == "sys" and fake.responses.kwargs["text"]["format"]["type"] == "json_object"
+
+
+def test_missing_groq_key_fails_clearly():
+    s = Settings(_env_file=None, llm_provider="groq", groq_api_key=None)
+    with pytest.raises(ConfigurationError, match="GROQ_API_KEY is missing"):
+        s.validate_llm()
+
+
+def test_groq_key_never_exposed():
+    secret = "gsk_test_SECRET_1234567890"
+    s = Settings(_env_file=None, llm_provider="groq", groq_api_key=secret)
+    s.validate_llm()
+    assert secret not in repr(s) and secret not in json.dumps(s.public_summary())
+    assert s.active_model == "openai/gpt-oss-120b"
+
+
+def test_groq_provider_uses_chat_completions_json_mode():
+    from app.llm.groq_provider import GroqProvider
+
+    class FakeCompletions:
+        kwargs = None
+
+        def create(self, **kwargs):
+            FakeCompletions.kwargs = kwargs
+            msg = type("M", (), {"content": '{"destination": "Dubai"}'})()
+            return type("R", (), {"choices": [type("Ch", (), {"message": msg})()]})()
+
+    fake = type("C", (), {"chat": type("Chat", (), {"completions": FakeCompletions()})()})()
+    p = GroqProvider(api_key="unused", model="m", base_url="http://x", client=fake)
+    assert p.generate_json(task="t", system="sys", prompt="p", context={}) == {"destination": "Dubai"}
+    assert FakeCompletions.kwargs["response_format"] == {"type": "json_object"}
+    assert FakeCompletions.kwargs["messages"][0] == {"role": "system", "content": "sys"}

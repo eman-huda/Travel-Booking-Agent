@@ -8,6 +8,7 @@ APP = str(Path(__file__).resolve().parent.parent / "frontend" / "streamlit_app.p
 
 def test_dashboard_runs_normal_and_failure_modes(tmp_path, monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "stub")
+    monkeypatch.setenv("DATA_MODE", "mock")
     monkeypatch.setenv("DATABASE_PATH", str(tmp_path / "ui.db"))
     monkeypatch.setenv("INJECTED_TIMEOUT_DELAY_SECONDS", "0")
     monkeypatch.setenv("LOG_LEVEL", "WARNING")

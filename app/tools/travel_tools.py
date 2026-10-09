@@ -55,6 +55,11 @@ def build_registry(sv: Services) -> ToolRegistry:
         s.DestinationInput, s.DestinationOutput, R,
         lambda a: sv.destinations.get_destination_info(a.destination)))
     reg.register(ToolSpec(
+        "get_return_flights", "Get return-leg options for a selected outbound flight (live searches return outbound first).",
+        s.GetReturnFlightsInput, s.ReturnFlightsOutput, R,
+        lambda a: sv.flights.get_return_flights(a.provider_ref, a.origin, a.destination, a.departure_date,
+                                                a.return_date, a.passengers, a.flight_id)))
+    reg.register(ToolSpec(
         "create_itinerary", "Build a day-by-day itinerary from the selected flight, hotel, preferences and attractions.",
         s.CreateItineraryInput, s.CreateItineraryOutput, R,
         lambda a: {"status": "success", "itinerary": build_itinerary(a).model_dump(mode="json")},

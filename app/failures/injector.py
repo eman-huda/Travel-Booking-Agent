@@ -20,6 +20,7 @@ SERVICE_NAMES = {
     "get_weather": "Weather service",
     "get_exchange_rate": "Exchange rate service",
     "get_destination_info": "Destination guide service",
+    "get_return_flights": "Return flight search service",
     "reserve_hotel": "Hotel reservation sandbox",
     "book_flight": "Flight booking sandbox",
 }

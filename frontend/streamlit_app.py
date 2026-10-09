@@ -41,8 +41,10 @@ try:
 except ConfigurationError as exc:
     st.error("The app cannot start because the configuration is incomplete.")
     st.markdown(f"**What to fix:** {exc}")
-    st.code("cp .env.example .env\n# then edit .env:\nOPENAI_API_KEY=sk-...\nLLM_MODEL=gpt-4.1-mini\n"
-            "# or run offline without a key:\nLLM_PROVIDER=stub", language="bash")
+    st.code("cp .env.example .env\n# then edit .env, for a free Groq key:\nLLM_PROVIDER=groq\nGROQ_API_KEY=gsk_...\n"
+            "# or for OpenAI:\nLLM_PROVIDER=openai\nOPENAI_API_KEY=sk-...\nLLM_MODEL=gpt-4.1-mini\n"
+            "# real flights and hotels (free key from https://serpapi.com):\nDATA_MODE=live\nSERPAPI_API_KEY=...\n"
+            "# or run fully offline:\nLLM_PROVIDER=stub\nDATA_MODE=mock", language="bash")
     st.stop()
 
 ss = st.session_state
@@ -76,14 +78,15 @@ with st.sidebar:
     failure_mode = options[label] if test_mode else "none"
     if test_mode and failure_mode != "none":
         st.caption(get_scenario(failure_mode).description)
-    simulate_booking = st.checkbox("Simulate sandbox booking", value=False,
-                                   help="Adds book_flight and reserve_hotel. They are simulations only.")
+    simulate_booking = st.checkbox("Book flight and hotel (sandbox)", value=True,
+                                   help="The agent completes the booking step in a sandbox. No real booking, "
+                                        "payment or reservation is ever made.")
     if simulate_booking or (test_mode and get_scenario(failure_mode).requires_booking):
         st.markdown(f'<span class="sandbox">{SANDBOX_LABEL}</span>', unsafe_allow_html=True)
     research_mode = st.toggle("Research mode", value=False, help="Show graph state, events, raw tool I/O and injected failures.")
     run_clicked = st.button("Run agent", type="primary", width="stretch")
 
-c.header(runner.settings.llm_provider, runner.settings.active_model, test_mode, research_mode)
+c.header(runner.settings.llm_provider, runner.settings.active_model, test_mode, research_mode, runner.settings.data_mode)
 
 if page == "Run history":
     history.render(runner, research_mode)

@@ -13,6 +13,10 @@ class FlightProvider(ABC):
     @abstractmethod
     def search_flights(self, origin: str, destination: str, departure_date: date, return_date: date, passengers: int) -> dict: ...
 
+    @abstractmethod
+    def get_return_flights(self, provider_ref: str | None, origin: str, destination: str, departure_date: date,
+                           return_date: date, passengers: int, flight_id: str | None = None) -> dict: ...
+
 
 class HotelProvider(ABC):
     @abstractmethod

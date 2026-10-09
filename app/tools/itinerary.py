@@ -29,8 +29,12 @@ def build_itinerary(inp: CreateItineraryInput) -> Itinerary:
     cap = ACTIVITY_CAP[prefs.activity_budget]
     hot = inp.weather is not None and inp.weather.temperature >= 35
 
-    pool = sorted([a for a in inp.attractions if a.estimated_cost <= cap],
-                  key=lambda a: (a.estimated_cost, a.attraction_id))
+    # Known prices must fit the activity budget. Unknown prices are kept (the source did not say) but are
+    # scheduled after free and known-cheap options, and the itinerary notes that the price is unknown.
+    ranked = [(i, a) for i, a in enumerate(inp.attractions) if a.estimated_cost is None or a.estimated_cost <= cap]
+    pool = [a for _, a in sorted(ranked, key=lambda x: (
+        0 if x[1].estimated_cost == 0 else 1 if x[1].estimated_cost is not None else 2,
+        x[1].estimated_cost or 0.0, x[0]))]
     used: set[str] = set()
 
     def pick(slot: str, prefer_indoor: bool = False) -> Attraction | None:
@@ -48,10 +52,17 @@ def build_itinerary(inp: CreateItineraryInput) -> Itinerary:
     def attraction_item(time_str: str, a: Attraction | None, label: str) -> ItineraryItem:
         if a is None:
             return ItineraryItem(time=time_str, activity=f"Free time ({label})", kind="free")
+        if a.estimated_cost is None and a.price_note:
+            cost_note = f"price per {a.source or 'source'}: {a.price_note}"
+        elif a.estimated_cost is None:
+            cost_note = "entry price not available from the data source"
+        elif a.estimated_cost:
+            cost_note = f"sample cost {a.estimated_cost:g} {a.currency} per person"
+        else:
+            cost_note = "free entry in the sample data"
         return ItineraryItem(time=time_str, activity=a.name, kind="attraction", attraction_id=a.attraction_id,
-                             estimated_cost=a.estimated_cost * inp.travelers,
-                             notes=f"About {a.duration_hours:g}h; " + (f"sample cost {a.estimated_cost:g} {a.currency} per person"
-                                                                     if a.estimated_cost else "free entry in the sample data"))
+                             estimated_cost=(a.estimated_cost or 0.0) * inp.travelers,
+                             notes=f"About {a.duration_hours:g}h; {cost_note}")
 
     weather_note = f"{inp.weather.condition}, around {inp.weather.temperature:g}°C ({inp.weather.basis.replace('_', ' ')})" if inp.weather else None
     days: list[ItineraryDay] = []
@@ -71,6 +82,12 @@ def build_itinerary(inp: CreateItineraryInput) -> Itinerary:
                 items.append(attraction_item(_t(18, 30), pick("evening"), "evening"))
             items.append(ItineraryItem(time=_t(20, 30), activity="Dinner near the hotel", kind="meal"))
             title = "Arrival and check-in"
+        elif i == n_days - 1 and f.return_departure is None:
+            items.append(ItineraryItem(time=_t(8), activity="Breakfast", kind="meal"))
+            items.append(ItineraryItem(time=_t(11), activity=f"Check out of {h.name}", kind="hotel"))
+            items.append(ItineraryItem(time=_t(11, 30), activity="Return flight (schedule not confirmed)", kind="flight",
+                                       notes="The return flight time could not be retrieved; confirm it before travelling."))
+            title = "Check-out and departure"
         elif i == n_days - 1:
             rdep = f.return_departure
             checkout = min(datetime.combine(d, datetime.min.time()).replace(hour=11), rdep - timedelta(hours=4))
@@ -102,13 +119,18 @@ def build_itinerary(inp: CreateItineraryInput) -> Itinerary:
     hotel_cost = round(h.nightly_price * nights * rooms, 2)
     activities_cost = round(sum(it.estimated_cost for day in days for it in day.items), 2)
     breakdown = {"flights": flights_cost, "hotel": hotel_cost, "activities": activities_cost}
+    assumptions = [f"Hotel cost assumes {rooms} room(s) for {nights} night(s).",
+                   "Meals and local transport are not included in the estimate."]
+    if any(a.estimated_cost is None for a in inp.attractions):
+        assumptions.append("Attraction prices are shown as published by the source where available; they are not "
+                           "converted or included in the total.")
+    else:
+        assumptions.append("Attraction costs are sample estimates from the destination data provider.")
     return Itinerary(
         destination=inp.destination, start_date=inp.start_date, end_date=inp.end_date, travelers=inp.travelers,
         currency=inp.currency, days=days, cost_breakdown=breakdown,
         total_estimated_cost=round(sum(breakdown.values()), 2),
-        assumptions=[f"Hotel cost assumes {rooms} room(s) for {nights} night(s).",
-                     "Meals and local transport are not included in the estimate.",
-                     "Attraction costs are sample estimates from the destination data provider."],
+        assumptions=assumptions,
     )
 
 
@@ -141,7 +163,9 @@ def validate(inp: ValidateItineraryInput) -> list[ValidationIssue]:
     # flights
     if f.departure.date() != inp.departure_date:
         add("flight_date_mismatch", "error", f"Outbound flight departs {f.departure.date()}, trip starts {inp.departure_date}.")
-    if f.return_departure.date() != inp.return_date:
+    if f.return_departure is None:
+        add("return_flight_unconfirmed", "warning", "The return flight schedule has not been confirmed.")
+    elif f.return_departure.date() != inp.return_date:
         add("return_flight_date_mismatch", "error", f"Return flight departs {f.return_departure.date()}, trip ends {inp.return_date}.")
     if it.days and not any(x.kind == "flight" for x in it.days[0].items):
         add("missing_outbound_flight", "error", "Day 1 does not include the outbound flight.")

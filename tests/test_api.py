@@ -8,6 +8,7 @@ from tests.conftest import DEMO_REQUEST
 @pytest.fixture
 def client(tmp_path, monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "stub")
+    monkeypatch.setenv("DATA_MODE", "mock")
     monkeypatch.setenv("DATABASE_PATH", str(tmp_path / "api.db"))
     monkeypatch.setenv("INJECTED_TIMEOUT_DELAY_SECONDS", "0")
     monkeypatch.setenv("LOG_LEVEL", "WARNING")

@@ -32,6 +32,7 @@ from app.schemas.travel import (
     ValidationResult,
     WeatherReport,
 )
+from app.tools.errors import ToolTimeoutError, UpstreamAPIError
 from app.tools.itinerary import rooms_needed
 
 ACTIVITY_RESERVE_PER_DAY = {"low": 25.0, "medium": 50.0, "high": 100.0}
@@ -51,6 +52,7 @@ NODE_LABELS = {
     "get_weather": "Checking weather",
     "get_destination_info": "Getting destination information",
     "select_options": "Comparing and selecting options",
+    "select_return_flight": "Choosing the return flight",
     "create_itinerary": "Building itinerary",
     "validate_itinerary": "Validating itinerary",
     "book_trip": "Simulating sandbox booking",
@@ -159,6 +161,16 @@ def money(amount: float, cur: str = PRICING_CURRENCY) -> str:
     return f"{amount:,.2f} {cur}"
 
 
+def safe_resolve(ctx: AgentContext, name: str | None) -> dict | None:
+    """City lookup used for normalisation. Network problems here never stop the run."""
+    if not name:
+        return None
+    try:
+        return ctx.cities.resolve_city(str(name))
+    except (UpstreamAPIError, ToolTimeoutError):
+        return None
+
+
 # --------------------------------------------------------------------------- understand
 @graph_node("understand_request")
 def understand_request(state: TravelState, ctx: AgentContext) -> dict:
@@ -169,7 +181,8 @@ def understand_request(state: TravelState, ctx: AgentContext) -> dict:
         acc.notice("warning", "payment_data_removed",
                    "Payment details were removed from the request. This agent never needs or uses payment information.")
     known = ctx.cities.known_cities()
-    prompt = (f"Today's date: {today.isoformat()}.\nCities with travel data: {', '.join(known)}.\n"
+    cities_note = ", ".join(known) if len(known) <= 40 else "any city worldwide (resolved to the nearest airport)"
+    prompt = (f"Today's date: {today.isoformat()}.\nCities with travel data: {cities_note}.\n"
               f"User message:\n{clean}")
     try:
         raw = ctx.llm_json(node="understand_request", task="extract_request", system=EXTRACT_SYSTEM, prompt=prompt,
@@ -210,7 +223,7 @@ def understand_request(state: TravelState, ctx: AgentContext) -> dict:
 
     for label, value in (("origin", origin), ("destination", destination)):
         if value:
-            city = ctx.cities.resolve_city(str(value))
+            city = safe_resolve(ctx, value)
             if city:
                 if label == "origin":
                     origin = city["name"]
@@ -316,7 +329,7 @@ def get_currency(state: TravelState, ctx: AgentContext) -> dict:
             extra["budget_rate"] = 0.0
             acc.unverified.append(f"Conversion between {PRICING_CURRENCY} and {state.currency}, so the budget could not be checked")
             acc.notice("warning", "budget_conversion_failed", f"Could not convert {state.currency} to {PRICING_CURRENCY}: {res.error.message}")
-    city = ctx.cities.resolve_city(state.destination or "")
+    city = safe_resolve(ctx, state.destination)
     local = city["local_currency"] if city else None
     if local and local != PRICING_CURRENCY:
         res = acc.call_with_retry("get_exchange_rate", {"from_currency": PRICING_CURRENCY, "to_currency": local},
@@ -422,7 +435,7 @@ def validate_flights(state: TravelState, ctx: AgentContext) -> dict:
         problems = []
         if f.origin != state.origin or f.destination != state.destination:
             problems.append("route does not match the request")
-        if f.departure.date() != state.departure_date or f.return_departure.date() != state.return_date:
+        if f.departure.date() != state.departure_date or (f.return_departure and f.return_departure.date() != state.return_date):
             problems.append("dates do not match the request")
         if f.currency != PRICING_CURRENCY:
             problems.append(f"priced in {f.currency}, expected {PRICING_CURRENCY}")
@@ -570,6 +583,9 @@ def get_weather(state: TravelState, ctx: AgentContext) -> dict:
     report = WeatherReport.model_validate(res.data)
     if report.basis == "climate_average":
         acc.notice("info", "weather_is_average", "Weather is a monthly climate average from the data provider, not a forecast.")
+    elif report.basis == "last_year_observed":
+        acc.notice("info", "weather_is_last_year", "The trip is beyond the forecast range, so weather shows what was observed "
+                                                   "on the same date last year. It is a guide, not a forecast.")
     return acc.update(weather=report)
 
 
@@ -583,7 +599,11 @@ def get_destination_info(state: TravelState, ctx: AgentContext) -> dict:
         acc.unverified.append("Attractions and destination information")
         acc.notice("warning", "destination_info_unavailable", f"Destination information could not be retrieved: {res.error.message}")
         return acc.update(__status__="failure")
-    return acc.update(destination_info=DestinationInfo.model_validate(res.data))
+    info = DestinationInfo.model_validate(res.data)
+    for w in info.warnings:
+        acc.notice("warning", "destination_info_partial", w)
+        acc.unverified.append(w)
+    return acc.update(destination_info=info)
 
 
 # --------------------------------------------------------------------------- selection
@@ -650,7 +670,7 @@ def select_options(state: TravelState, ctx: AgentContext) -> dict:
                    f"{'direct' if f.stops == 0 else str(f.stops) + ' stop'}, {money(f.price)} per person"
                    f"{' and leaves ' + eligible_note if eligible_note else ''}.")
     rating_note = f" and meets your {prefs.min_hotel_rating:g}+ rating preference" if prefs.min_hotel_rating else ""
-    reasons.append(f"{h.name} in {h.location} is rated {h.rating:g} at {money(h.nightly_price)} per night{rating_note}.")
+    reasons.append(f"{h.name} ({h.location}) is rated {h.rating:g} at {money(h.nightly_price)} per night{rating_note}.")
     if budget_usd:
         reasons.append(f"Flights, hotel and an activity allowance of {money(reserve)} come to about {money(total)} against a budget of {money(budget_usd)}.")
 
@@ -658,6 +678,49 @@ def select_options(state: TravelState, ctx: AgentContext) -> dict:
                                               key=lambda c: (c[0], c[1]), reverse=True)]
     return acc.update(selected_flight=f, selected_hotel=h, hotel_ranking=ranking, selection_reasons=reasons,
                       __message__=f"{f.flight_id} + {h.hotel_id}")
+
+
+@graph_node("select_return_flight")
+def select_return_flight(state: TravelState, ctx: AgentContext) -> dict:
+    f = state.selected_flight
+    if state.next_action == "abort" or f is None:
+        return {"__status__": "skipped"}
+    if f.return_departure is not None:
+        return {"__status__": "skipped", "__message__": "return leg already known"}
+    acc = Acc(state, ctx, "select_return_flight")
+    res = acc.call_with_retry("get_return_flights", {
+        "flight_id": f.flight_id, "provider_ref": f.provider_ref, "origin": state.origin,
+        "destination": state.destination, "departure_date": state.departure_date.isoformat(),
+        "return_date": state.return_date.isoformat(), "passengers": state.travelers,
+    }, key=f"get_return_flights:{f.flight_id}")
+    options = []
+    if res.status == "success":
+        options = [o for o in res.data["options"]
+                   if o["return_departure"][:10] == state.return_date.isoformat() and o["currency"] == PRICING_CURRENCY]
+    if not options:
+        reason = res.error.message if res.status != "success" else "no return options were returned for the return date"
+        acc.notice("warning", "return_flight_unconfirmed", f"The return flight could not be confirmed: {reason}.")
+        acc.unverified.append("Return flight schedule and final round-trip price")
+        return acc.update(__status__="failure", __message__=reason)
+    prefs = state.preferences
+
+    def score(o):
+        dep = datetime.fromisoformat(o["return_departure"])
+        early = 1 if dep.hour < 6 else 0
+        indirect = 1 if (prefs.prefer_direct and o["stops"]) else 0
+        return (early, indirect, o["price"], o["return_departure"])
+
+    best = sorted(options, key=score)[0]
+    updated = f.model_copy(update={
+        "return_flight_number": best["return_flight_number"],
+        "return_departure": datetime.fromisoformat(best["return_departure"]),
+        "return_arrival": datetime.fromisoformat(best["return_arrival"]),
+        "price": best["price"]})
+    reasons = list(state.selection_reasons)
+    reasons.append(f"Return: {best['airline']} {best['return_flight_number']} departs "
+                   f"{updated.return_departure:%d %b %H:%M}; the confirmed round-trip fare is {money(best['price'])} per person.")
+    return acc.update(selected_flight=updated, selection_reasons=reasons,
+                      __message__=f"{best['return_flight_number']} at {updated.return_departure:%H:%M}")
 
 
 # --------------------------------------------------------------------------- itinerary
@@ -738,7 +801,7 @@ def book_trip(state: TravelState, ctx: AgentContext) -> dict:
         acc.recover("reserve_hotel", "booking_unavailable", "retry_with_alternative_hotel", detail)
         acc.notice("info", "hotel_switched", f"{h.name} could not be reserved in the sandbox, so {alternative.name} was selected instead.")
         reasons = [r for r in state.selection_reasons if h.name not in r and "activity allowance" not in r]
-        reasons.append(f"{alternative.name} in {alternative.location} (rated {alternative.rating:g}, {money(alternative.nightly_price)} "
+        reasons.append(f"{alternative.name} ({alternative.location}, rated {alternative.rating:g}, {money(alternative.nightly_price)} "
                        f"per night) replaced {h.name}, which could not be reserved. The itinerary was rebuilt and revalidated.")
         return acc.update(bookings=bookings, selected_hotel=alternative, tried_hotel_ids=tried, selection_reasons=reasons,
                           booking_alternatives_used=state.booking_alternatives_used + 1,
@@ -780,7 +843,9 @@ def final_response(state: TravelState, ctx: AgentContext) -> dict:
             facts["blocking_problems"].append(f"{len(state.flights)} flight option(s) were found, but without a hotel a full plan cannot be built.")
     else:
         f, h, it = state.selected_flight, state.selected_hotel, state.itinerary
-        facts["flight"] = f"{f.airline} {f.flight_number}, departs {f.departure:%d %b %H:%M}, returns on {f.return_flight_number} at {f.return_departure:%d %b %H:%M}, {money(f.price)} per person"
+        ret = (f"returns on {f.return_flight_number} at {f.return_departure:%d %b %H:%M}" if f.return_departure
+               else "return flight not confirmed")
+        facts["flight"] = f"{f.airline} {f.flight_number}, departs {f.departure:%d %b %H:%M}, {ret}, {money(f.price)} per person"
         facts["hotel"] = f"{h.name} ({h.location}, rated {h.rating:g}), {money(h.nightly_price)} per night"
         cost = money(it.total_estimated_cost)
         if state.currency != PRICING_CURRENCY and state.budget_rate:
@@ -811,6 +876,12 @@ def final_response(state: TravelState, ctx: AgentContext) -> dict:
     gaps = list(dict.fromkeys(state.unverified))
     if gaps:
         appendix.append("Could not be verified: " + "; ".join(gaps) + ".")
-    appendix.append("Prices and schedules come from the configured travel data providers (mock data by default).")
+    if ctx.settings.data_mode == "live":
+        appendix.append("Flights and hotels are live Google Flights and Google Hotels results (via SerpApi) at search time. "
+                        "They are shopping prices, not guaranteed fares; nothing was actually booked.")
+        if (state.travelers or 1) > 1:
+            appendix.append("Fares were searched per person; seat availability for the whole group was not confirmed.")
+    else:
+        appendix.append("Prices and schedules come from the mock data provider (sample data, not real offers).")
     return acc.update(final_response=text.strip() + "\n\n" + "\n".join(appendix), status=outcome,
                       __message__=outcome)
